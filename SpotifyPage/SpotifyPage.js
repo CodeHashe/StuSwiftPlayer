@@ -1,24 +1,22 @@
-// SpotifyLogin.js
-
 import React, { useState, useEffect } from 'react';
 import { Button, View, StyleSheet, Alert, Text } from 'react-native';
 import * as AuthSession from 'expo-auth-session';
 import SpotifyDisplay from './screens/SpotifyDisplay';
 
-// Spotify App Credentials
-const CLIENT_ID = '60e52b498853481ca6d00f6ca3d9ed6d'; // Replace with your Spotify Client ID
+
+const CLIENT_ID = '60e52b498853481ca6d00f6ca3d9ed6d';
 const SCOPES = ['user-read-private', 'user-read-email', 'user-library-read'];
 
 export default function SpotifyLogin() {
   const [accessToken, setAccessToken] = useState(null);
 
-  // Discovery object containing Spotify's endpoints
+  
   const discovery = {
     authorizationEndpoint: 'https://accounts.spotify.com/authorize',
     tokenEndpoint: 'https://accounts.spotify.com/api/token',
   };
 
-  // Configure the authentication request
+ 
   const [request, response, promptAsync] = AuthSession.useAuthRequest(
     {
       clientId: CLIENT_ID,
