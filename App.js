@@ -4,37 +4,17 @@ import Home from "./Home";
 import LoginScreen from "./LoginScreen";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SpotifyPage from './SpotifyPage/SpotifyPage';
+import { SafeAreaView } from 'react-native';
 
 export default function App() {
 
   const Stack = createNativeStackNavigator();
 
   return (
-
-    <>
-      <NavigationContainer>
-
-        <Stack.Navigator >
-          <Stack.Screen
-            name="LoginScreen"
-            component={LoginScreen}
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{
-              headerShown: true,
-              title: 'HomePage'
-            }}
-          />
-        </Stack.Navigator>
-
-
-      </NavigationContainer>
-    </>
+  <SafeAreaView style={styles.container}>
+    <SpotifyPage/>
+  </SafeAreaView>
   );
 }
 
