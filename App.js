@@ -4,8 +4,8 @@ import Home from "./Home";
 import LoginScreen from "./LoginScreen";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SpotifyPage from './SpotifyPage/SpotifyPage';
 import { SafeAreaView } from 'react-native';
+import SpotifyAuth from './SpotifyPage/SpotifyAuth';
 
 export default function App() {
 
@@ -13,7 +13,7 @@ export default function App() {
 
   return (
   <SafeAreaView style={styles.container}>
-    <SpotifyPage/>
+    <SpotifyAuth/>
   </SafeAreaView>
   );
 }
