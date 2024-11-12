@@ -4,7 +4,7 @@ import * as AuthSession from 'expo-auth-session';
 import SpotifyDisplay from './screens/SpotifyDisplay';
 
 const CLIENT_ID = '60e52b498853481ca6d00f6ca3d9ed6d';
-const SCOPES = ['user-read-private', 'user-read-email', 'user-library-read', 'user-follow-read'];
+const SCOPES = ['user-read-private', 'user-read-email', 'user-library-read', 'user-follow-read', 'user-top-read'];
 
 export default function SpotifyLogin() {
   const [accessToken, setAccessToken] = useState(null);
