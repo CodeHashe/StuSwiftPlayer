@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ActivityIndicator, FlatList, Image, SafeAreaView, TextInput, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, FlatList, Image, SafeAreaView, TextInput, ScrollView, Pressable } from "react-native";
 import { useFonts, Montserrat_400Regular, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
 import { Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
 import fetchSongs from "../data/fetchSongs";
@@ -78,9 +78,9 @@ const SpotifyDisplay = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView> 
-        <View style={styles.topBox}>
+        <Pressable style={styles.topBox}>
           <Text style={styles.ScreenTitle}>Music</Text>
-        </View>
+        </Pressable>
 
         <View>
           <TextInput
@@ -97,10 +97,10 @@ const SpotifyDisplay = (props) => {
           renderItem={({ item }) => {
             const albumImage = item.images?.[0]?.url || 'https://via.placeholder.com/100';
             return (
-              <View style={styles.songItem}>
+              <Pressable style={styles.songItem}>
                 <Image source={{ uri: albumImage }} style={styles.albumImage} />
                 <Text style={styles.songTitle}>{item.name}</Text>
-              </View>
+              </Pressable>
             );
           }}
           bounces={false}
@@ -116,11 +116,11 @@ const SpotifyDisplay = (props) => {
           renderItem={({ item }) => {
             const albumImage = item.track.album?.images?.[0]?.url || 'https://via.placeholder.com/100';
             return (
-              <View style={styles.songItem}>
+              <Pressable style={styles.songItem}>
                 <Image source={{ uri: albumImage }} style={styles.albumImage} />
                 <Text style={styles.songTitle}>{item.track.name}</Text>
                 <Text style={styles.artistName}>{item.track.artists[0].name}</Text>
-              </View>
+              </Pressable>
             );
           }}
           bounces={false}
@@ -136,10 +136,10 @@ const SpotifyDisplay = (props) => {
           renderItem={({ item }) => {
             const artistImage = item.images?.[0]?.url || 'https://via.placeholder.com/100';
             return (
-              <View style={styles.songItem}>
+              <Pressable style={styles.songItem}>
                 <Image source={{ uri: artistImage }} style={styles.albumImage} />
                 <Text style={styles.songTitle}>{item.name}</Text>
-              </View>
+              </Pressable>
             );
           }}
           bounces={false}

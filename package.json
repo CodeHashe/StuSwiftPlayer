@@ -20,7 +20,7 @@
     "base64-js": "^1.5.1",
     "Buffer": "^0.0.0",
     "crypto-js": "^4.2.0",
-    "expo": "~51.0.28",
+    "expo": "^52.0.6",
     "expo-auth-session": "~5.5.2",
     "expo-cli": "^6.3.12",
     "expo-crypto": "~13.0.2",
