@@ -3,24 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spotify Player</title>
+  <title>Spotify Web Player</title>
   <script src="https://sdk.scdn.co/spotify-player.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #1db954;
+      color: white;
+    }
+    #web-player {
+      width: 100%;
+      height: 300px;
+      margin-top: 50px;
+      background-color: #333;
+      border-radius: 10px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Spotify Web Player</h1>
-  <div id="player"></div>
+
+  <h2>Spotify Player</h2>
+  <div id="web-player"></div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const accessToken = params.get('access_token');
-    const trackUri = params.get('track_uri');
+    // Retrieve the token and track URI from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get('access_token');
+    const trackUri = urlParams.get('track_uri');  // Get the track URI from the query parameter
 
-    // Initialize Spotify Web Playback SDK
+    if (!accessToken) {
+      alert("Access token is missing!");
+      return;
+    }
+
     window.onSpotifyWebPlaybackSDKReady = () => {
       const player = new Spotify.Player({
-        name: 'Web Playback SDK Quick Start Player',
-        getOAuthToken: cb => { cb(accessToken); },
-        volume: 0.5
+        name: 'Web Playback SDK',
+        getOAuthToken: (cb) => { cb(accessToken); },
+        volume: 0.5,
       });
 
       // Error handling
@@ -29,13 +50,18 @@
       player.on('account_error', e => { console.error(e); });
       player.on('playback_error', e => { console.error(e); });
 
-      // Ready event
-      player.on('ready', data => {
-        console.log('The Web Playback SDK is ready');
+      // When the player is ready
+      player.on('ready', ({ device_id }) => {
+        console.log('The Web Playback SDK is ready with Device ID', device_id);
+
+        // Automatically play the track when the player is ready
         player.connect().then(success => {
           if (success) {
-            console.log('The Web Playback SDK connected successfully');
-            player.play({ uris: [trackUri] }); // Start playing the track
+            console.log('The Web Playback SDK successfully connected to Spotify!');
+            // Start playing the track
+            player.play({
+              uris: [trackUri]
+            });
           }
         });
       });
@@ -44,5 +70,6 @@
       player.connect();
     };
   </script>
+
 </body>
 </html>
