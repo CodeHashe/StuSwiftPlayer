@@ -1,75 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spotify Web Player</title>
-  <script src="https://sdk.scdn.co/spotify-player.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background-color: #1db954;
-      color: white;
-    }
-    #web-player {
-      width: 100%;
-      height: 300px;
-      margin-top: 50px;
-      background-color: #333;
-      border-radius: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Web Player</title>
+    <!-- SDK should be loaded before any reference to onSpotifyWebPlaybackSDKReady -->
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
 </head>
 <body>
+    <h1>Spotify Web Player</h1>
+    <div id="player"></div>
 
-  <h2>Spotify Player</h2>
-  <div id="web-player"></div>
+    <script>
+        // onSpotifyWebPlaybackSDKReady must be defined globally before the SDK is loaded
+        window.onSpotifyWebPlaybackSDKReady = () => {
+            const token = new URLSearchParams(window.location.search).get('token');
+            if (!token) {
+                console.error('No token provided');
+                return;
+            }
 
-  <script>
-    // Retrieve the token and track URI from URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const accessToken = urlParams.get('access_token');
-    const trackUri = urlParams.get('track_uri');  // Get the track URI from the query parameter
-
-    if (!accessToken) {
-      alert("Access token is missing!");
-      return;
-    }
-
-    window.onSpotifyWebPlaybackSDKReady = () => {
-      const player = new Spotify.Player({
-        name: 'Web Playback SDK',
-        getOAuthToken: (cb) => { cb(accessToken); },
-        volume: 0.5,
-      });
-
-      // Error handling
-      player.on('initialization_error', e => { console.error(e); });
-      player.on('authentication_error', e => { console.error(e); });
-      player.on('account_error', e => { console.error(e); });
-      player.on('playback_error', e => { console.error(e); });
-
-      // When the player is ready
-      player.on('ready', ({ device_id }) => {
-        console.log('The Web Playback SDK is ready with Device ID', device_id);
-
-        // Automatically play the track when the player is ready
-        player.connect().then(success => {
-          if (success) {
-            console.log('The Web Playback SDK successfully connected to Spotify!');
-            // Start playing the track
-            player.play({
-              uris: [trackUri]
+            const player = new Spotify.Player({
+                name: "Web Playback SDK",
+                getOAuthToken: (cb) => { cb(token); },
+                volume: 0.5
             });
-          }
-        });
-      });
 
-      // Connect the player
-      player.connect();
-    };
-  </script>
+            player.on('initialization_error', ({ message }) => { console.error(message); });
+            player.on('authentication_error', ({ message }) => { console.error(message); });
+            player.on('account_error', ({ message }) => { console.error(message); });
+            player.on('playback_error', ({ message }) => { console.error(message); });
 
+            player.on('ready', ({ device_id }) => {
+                console.log("The Web Playback SDK is ready with Device ID", device_id);
+                player.connect().then((success) => {
+                    if (success) {
+                        console.log("The Web Playback SDK successfully connected.");
+                        player.play({
+                            uris: ['spotify:track:6rqhFgbbKwnb9MLmUQDh6T']
+                        });
+                    }
+                });
+            });
+
+            player.connect();
+        };
+    </script>
 </body>
 </html>
