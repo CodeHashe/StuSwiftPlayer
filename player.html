@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotify Player</title>
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>
+</head>
+<body>
+  <h1>Spotify Web Player</h1>
+  <div id="player"></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const accessToken = params.get('access_token');
+    const trackUri = params.get('track_uri');
+
+    // Initialize Spotify Web Playback SDK
+    window.onSpotifyWebPlaybackSDKReady = () => {
+      const player = new Spotify.Player({
+        name: 'Web Playback SDK Quick Start Player',
+        getOAuthToken: cb => { cb(accessToken); },
+        volume: 0.5
+      });
+
+      // Error handling
+      player.on('initialization_error', e => { console.error(e); });
+      player.on('authentication_error', e => { console.error(e); });
+      player.on('account_error', e => { console.error(e); });
+      player.on('playback_error', e => { console.error(e); });
+
+      // Ready event
+      player.on('ready', data => {
+        console.log('The Web Playback SDK is ready');
+        player.connect().then(success => {
+          if (success) {
+            console.log('The Web Playback SDK connected successfully');
+            player.play({ uris: [trackUri] }); // Start playing the track
+          }
+        });
+      });
+
+      // Connect the player
+      player.connect();
+    };
+  </script>
+</body>
+</html>
